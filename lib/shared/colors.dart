@@ -14,4 +14,5 @@ class MaineColors {
   static const Color lightGreen = Color(0xFF8BC34A);
   static const Color lime = Color(0xFFCDDC39);
   static const Color black  = Color(0xFF000000);
+  static const Color white = Color(0xFFFFFFFF);
 }

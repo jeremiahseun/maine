@@ -1,9 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:logger/logger.dart';
 import 'package:maine/controllers/remainder_controller.dart';
-import 'package:maine/models/remainder_model.dart';
+import 'package:maine/models/remainder/remainder_model.dart';
 import 'package:maine/services/notification_service.dart' as notify;
 import 'package:maine/shared/styles.dart';
 import 'package:maine/utils/constants.dart';
@@ -14,6 +16,7 @@ class Remainder extends StatelessWidget {
   final RemainderController remainderController =
       Get.put(RemainderController());
   final log = Logger();
+  final _random = Random();
   final GetStorage storage = GetStorage();
   final constant = MaineConstants();
 
@@ -59,10 +62,13 @@ class Remainder extends StatelessWidget {
               child: ElevatedButton(
                   onPressed: () {
                     remainderController.addRemainder(RemainderModel(
-                        titleController.text, descriptionController.text));
+                        remainderColor: 0xff9f7c03,
+                        remainderTitle: titleController.text,
+                        remainderDescription: descriptionController.text));
                     Get.back();
-                    log.i(remainderController.remainderList.length);
-                    // Get.snackbar('Maine', 'Added successfully');
+                    log.i(remainderController.remainderList.toString());
+                    Get.snackbar('Maine', 'Added successfully',
+                        snackPosition: SnackPosition.TOP);
                     notify.createImportantNotification(
                         titleController.text, descriptionController.text);
                   },

@@ -4,4 +4,5 @@ class MaineConstants {
   static const remainder = 'remainder';
   static const scheduleNotification = 'scheduled_channel';
   static const importantNotification = 'important_channel';
+  static const remainderBox = 'remainderBox';
 }

@@ -3,16 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:maine/models/remainder/remainder_model.dart';
 import 'package:maine/shared/colors.dart';
 import 'package:maine/utils/constants.dart';
 import 'package:maine/views/onboarding/onboarding.dart';
+import 'package:hive/hive.dart';
 
 initializeNotification() {
   AwesomeNotifications().initialize(
       'resource://drawable/res_logo',
       [
         NotificationChannel(
-            channelKey:  MaineConstants.scheduleNotification,
+            channelKey: MaineConstants.scheduleNotification,
             channelName: "Scheduled Notification",
             channelDescription: 'Notification channel for schedule remainders',
             defaultColor: MaineColors.deepPurple,
@@ -28,7 +31,7 @@ initializeNotification() {
             channelDescription: 'Notification channel for important tests',
             channelKey: MaineConstants.importantNotification,
             channelName: 'Important notifications',
-             defaultColor: MaineColors.deepPurple,
+            defaultColor: MaineColors.deepPurple,
             playSound: true,
             groupSort: GroupSort.Asc,
             groupKey: 'group-notifs',
@@ -42,6 +45,9 @@ initializeNotification() {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeNotification();
+  await Hive.initFlutter();
+  Hive.registerAdapter(RemainderModelAdapter());
+  await Hive.openBox<RemainderModel>(MaineConstants.remainderBox);
   await GetStorage.init();
   runApp(const MyApp());
 }
@@ -64,6 +70,7 @@ class MyApp extends StatelessWidget {
     });
     return GetMaterialApp(
       title: 'Maine',
+      debugShowCheckedModeBanner: false,
       defaultTransition: Transition.fadeIn,
       theme: ThemeData(
         primaryColor: MaineColors.purple,
